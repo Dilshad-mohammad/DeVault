@@ -68,9 +68,12 @@ class SignupController extends GetxController {
         profilePicture: '',
       );
 
-      // Save user record to Firestore
+      // Save user record to FireStore
       final userRepository = Get.put(UserRepository());
       await userRepository.saveUserRecord(newUser);
+
+      // Remove Loader
+      DFullScreenLoader.stopLoading();
 
       // Show success message
       DLoaders.successSnackBar(
