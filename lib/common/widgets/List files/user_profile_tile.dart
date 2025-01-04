@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:untitled/features/personalization/Screens/Profile/profile.dart';
 import 'package:untitled/features/personalization/controllers/user_controller.dart';
-
 import '../../../utils/constants/helpers/colors.dart';
 import '../../../utils/constants/helpers/image_strings.dart';
 import '../Images/dcircular_image.dart';

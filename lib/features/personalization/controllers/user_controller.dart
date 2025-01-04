@@ -17,7 +17,9 @@ class UserController extends GetxController {
   static UserController get instance => Get.find();
 
   final profileLoading = false.obs;
-  Rx<UserModel> user = UserModel.empty().obs;
+  Rx<UserModel> user = UserModel
+      .empty()
+      .obs;
 
   final hidePassword = false.obs;
   final verifyEmail = TextEditingController();
@@ -50,16 +52,16 @@ class UserController extends GetxController {
       if (userCredentials != null) {
         // Convert Name to First and Last Name
         final nameParts =
-            UserModel.nameParts(userCredentials.user!.displayName ?? '');
+        UserModel.nameParts(userCredentials.user!.displayName ?? '');
         final username =
-            UserModel.generateUsername(userCredentials.user!.displayName ?? '');
+        UserModel.generateUsername(userCredentials.user!.displayName ?? '');
 
         // Map Data
         final user = UserModel(
             id: userCredentials.user!.uid,
             firstName: nameParts[0],
             lastName:
-                nameParts.length > 1 ? nameParts.sublist(1).join(" ") : '',
+            nameParts.length > 1 ? nameParts.sublist(1).join(" ") : '',
             username: username,
             email: userCredentials.user!.email ?? '',
             phoneNumber: userCredentials.user!.phoneNumber ?? '',
@@ -72,19 +74,19 @@ class UserController extends GetxController {
       DLoaders.warningSnackBar(
           title: 'Data not saved',
           message:
-              'Something went wrong while saving your information. You can re-save your data in your Profile.');
+          'Something went wrong while saving your information. You can re-save your data in your Profile.');
     }
   }
 
-  /// Delete Account Warning
+  /// Delete Account Warning Popup
   void deleteAccountWarningPopup() {
     Get.defaultDialog(
       contentPadding: const EdgeInsets.all(DSizes.md),
       title: 'Delete Account',
       middleText:
-          'Are you Sure? You want to delete your account permanently? This action is not reversible and all of your data will be removed permanently.',
+      'Are you Sure? You want to delete your account permanently? This action is not reversible and all of your data will be removed permanently.',
       confirm: ElevatedButton(
-        onPressed: () async => deleteUserAccount(),
+        onPressed: () => deleteUserAccount(),
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red)),
@@ -101,71 +103,101 @@ class UserController extends GetxController {
   /// Delete User Account
   void deleteUserAccount() async {
     try {
-      DFullScreenLoader.openLoadingDialog(
-          'Processing...', DImages.decorAnimation);
+      DFullScreenLoader.openLoadingDialog('Processing...', DImages.decorAnimation);
 
-      /// First re-authentication user
       final auth = AuthenticationRepository.instance;
-      final provider =
-          auth.authUser!.providerData.map((e) => e.providerId).first;
-      if (provider.isNotEmpty) {
-        // Re Verify Auth Email
-        if (provider == 'Google.com') {
-          await auth.signInWithGoogle();
-          auth.deleteAccount();
-          DFullScreenLoader.stopLoading();
-          Get.offAll(() => const LoginScreen());
-        } else if (provider == 'Password') {
-          DFullScreenLoader.stopLoading();
-          Get.to(() => const ReAuthLoginForm());
+      final provider = auth.authUser?.providerData.map((e) => e.providerId).first;
+
+      if (provider != null && provider.isNotEmpty) {
+        switch (provider) {
+          case 'Google.com':
+            await auth.signInWithGoogle();
+            break;
+          case 'password':
+            DFullScreenLoader.stopLoading();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (Navigator.of(Get.context!).canPop()) {
+                Get.to(() => const ReAuthLoginForm());
+              } else {
+                Navigator.of(Get.context!).push(
+                  MaterialPageRoute(builder: (_) => const ReAuthLoginForm()),
+                );
+              }
+            });
+            return;
+        // Handle other providers if needed
         }
+
+        await auth.deleteAccount();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (Navigator.of(Get.context!).canPop()) {
+            Get.offAll(() => const LoginScreen());
+          } else {
+            Navigator.of(Get.context!).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  (Route<dynamic> route) => false,
+            );
+          }
+        });
       }
     } catch (e) {
-      DFullScreenLoader.stopLoading();
       DLoaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
+    } finally {
+      DFullScreenLoader.stopLoading();
     }
   }
 
   /// -- Re-AUTHENTICATE before deleting
   Future<void> reAuthenticateEmailAndPasswordUser() async {
+    DFullScreenLoader.openLoadingDialog('Processing...', DImages.decorAnimation);
     try {
-      DFullScreenLoader.openLoadingDialog(
-          'Processing...', DImages.decorAnimation);
-
       // Check Internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        DFullScreenLoader.stopLoading();
         DLoaders.warningSnackBar(
-            title: 'No Internet',
-            message: 'Please check your internet connection.');
+          title: 'No Internet',
+          message: 'Please check your internet connection.',
+        );
         return;
       }
 
       // Form Validation
       if (!reAuthFormKey.currentState!.validate()) {
-        DFullScreenLoader.stopLoading();
         DLoaders.warningSnackBar(
-            title: 'Validation Error',
-            message: 'Please fill all required fields correctly.');
+          title: 'Validation Error',
+          message: 'Please fill all required fields correctly.',
+        );
         return;
       }
 
       // Re-authenticate and delete account
-      await AuthenticationRepository.instance
-          .reAuthenticateWithEmailAndPassword(
+      await AuthenticationRepository.instance.reAuthenticateWithEmailAndPassword(
         verifyEmail.text.trim(),
         verifyPassword.text.trim(),
       );
       await AuthenticationRepository.instance.deleteAccount();
 
       DLoaders.successSnackBar(
-          title: 'Success', message: 'Account deleted successfully.');
-      Get.offAll(const LoginScreen());
+        title: 'Success',
+        message: 'Account deleted successfully.',
+      );
+
+      // Ensure navigation happens after the current frame
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Navigator.of(Get.context!).canPop()) {
+          Get.offAll(const LoginScreen());
+        } else {
+          Navigator.of(Get.context!).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+          );
+        }
+      });
     } catch (e) {
       DLoaders.warningSnackBar(
-          title: 'Oh Snap!',
-          message: 'Failed to delete account: ${e.toString()}');
+        title: 'Oh Snap!',
+        message: 'Failed to delete account: ${e.toString()}',
+      );
     } finally {
       DFullScreenLoader.stopLoading();
     }

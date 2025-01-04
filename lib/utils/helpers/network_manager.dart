@@ -10,7 +10,7 @@ class NetworkManager extends GetxController {
   static NetworkManager get instance => Get.find();
 
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
   final Rx<ConnectivityResult> _connectionStatus = ConnectivityResult.none.obs;
 
   /// Initialize the network manager and set up a stream to check the connection status.
@@ -18,9 +18,12 @@ class NetworkManager extends GetxController {
   void onInit() {
     super.onInit();
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-      _updateConnectionStatus,
-    );
-  }
+          (List<ConnectivityResult> results) {
+        if (results.isNotEmpty) {
+          _updateConnectionStatus(
+              results.first); // or handle the list as needed
+        }});}
+
 
   /// Track whether the connection status has been checked at least once
   bool _hasCheckedConnection = false;

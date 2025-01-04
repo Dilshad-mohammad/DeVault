@@ -16,10 +16,10 @@ dependencies:
 
   # Utility Packages
   http: ^1.2.2
-  intl: ^0.19.0
+  intl: ^0.20.1
   logger: ^2.4.0
   url_launcher: ^6.3.0
-  connectivity_plus: ^5.0.2
+  connectivity_plus: ^6.1.1
   lottie: ^3.2.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -53,7 +53,7 @@ dev_dependencies:
     sdk: flutter
 
 
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

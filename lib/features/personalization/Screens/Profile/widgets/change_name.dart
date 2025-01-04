@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-
 import '../../../../../common/widgets/Appbar/appbar.dart';
 import '../../../../../utils/constants/helpers/sizes.dart';
 import '../../../../../utils/constants/helpers/text_strings.dart';
