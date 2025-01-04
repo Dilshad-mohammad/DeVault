@@ -51,7 +51,7 @@ class DProductCardVertical extends StatelessWidget {
                     top: 12,
                     child: DRoundedContainer(
                       radius: DSizes.sm,
-                      backgroundColor: DColors.secondary.withOpacity(0.8),
+                      backgroundColor: DColors.secondary..withAlpha(204),
                       padding: const EdgeInsets.symmetric(
                           horizontal: DSizes.sm, vertical: DSizes.xs),
                       child: Text('20%',

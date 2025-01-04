@@ -8,7 +8,7 @@ import '../../../../utils/popups/loaders.dart';
 import '../../../../utils/constants/helpers/image_strings.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../screens/Signup/verify_email.dart';
-import 'network_manager.dart';
+import '../../../../utils/helpers/network_manager.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
@@ -72,17 +72,10 @@ class SignupController extends GetxController {
       final userRepository = Get.put(UserRepository());
       await userRepository.saveUserRecord(newUser);
 
-      // Remove Loader
-      DFullScreenLoader.stopLoading();
-
       // Show success message
       DLoaders.successSnackBar(
         title: 'Congratulations',
-        message: 'Your account has been created! Please verify your email to continue.',
-      );
-
-      // Navigate to verify email screen
-      Get.to(const VerifyEmailScreen());
+        message: 'Your account has been created! Please verify your email to continue.');
     } on FirebaseAuthException catch (e) {
       _handleFirebaseAuthError(e);
     } on Exception catch (e) {
@@ -94,6 +87,9 @@ class SignupController extends GetxController {
     } finally {
       // Stop loader
       DFullScreenLoader.stopLoading();
+
+      // Navigate to verify email screen
+      Get.to(VerifyEmailScreen(email: email.text.trim()));
     }
   }
 

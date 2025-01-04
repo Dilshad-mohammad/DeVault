@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/features/authentication/controllers/forget_password/forget_password_controller.dart';
+import 'package:untitled/features/authentication/screens/Login/login.dart';
 import 'package:untitled/utils/constants/helpers/image_strings.dart';
 import 'package:untitled/utils/constants/helpers/text_strings.dart';
 
 import '../../../../utils/constants/helpers/sizes.dart';
 import '../../../../utils/helpers/helper_function.dart';
 
-class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key, required this.email});
 
+  final String email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +36,14 @@ class ResetPassword extends StatelessWidget {
                   width: DHelperFunctions.screenWidth() * 0.6),
               const SizedBox(height: DSizes.spaceBtwSections),
 
-              /// Title & SubTitle
-              Text(DTexts.changeYourPasswordTitle,
-                  style: Theme.of(context).textTheme.headlineMedium,
+              ///Email, Title & SubTitle
+              Text(email, style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center),
               const SizedBox(height: DSizes.spaceBtwItems),
-              Text(DTexts.changeYourPasswordSupTitle,
-                  style: Theme.of(context).textTheme.labelMedium,
+              Text(DTexts.changeYourPasswordTitle, style: Theme.of(context).textTheme.headlineMedium,
+                  textAlign: TextAlign.center),
+              const SizedBox(height: DSizes.spaceBtwItems),
+              Text(DTexts.changeYourPasswordSupTitle, style: Theme.of(context).textTheme.labelMedium,
                   textAlign: TextAlign.center),
               const SizedBox(height: DSizes.spaceBtwSections),
 
@@ -47,14 +51,14 @@ class ResetPassword extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: (){},
+                      onPressed: () => Get.offAll(const LoginScreen()),
                       child: const Text(DTexts.dDone)),
               ),
               const SizedBox(height: DSizes.spaceBtwItems * 1.3),
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                    onPressed: (){},
+                    onPressed: () => ForgetPasswordController.instance.resendPasswordResetEmail(email),
                     child: const Text(DTexts.resendEmail)),
               ),
             ],

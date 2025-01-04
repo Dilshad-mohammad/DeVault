@@ -43,11 +43,11 @@ class DCouponCode extends StatelessWidget {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 foregroundColor: dark
-                    ? DColors.white.withOpacity(0.5)
-                    : DColors.dark.withOpacity(0.5),
-                backgroundColor: DColors.grey.withOpacity(0.2),
+                    ? DColors.white.withAlpha(128)
+                    : DColors.dark.withAlpha(128),
+                backgroundColor: DColors.grey..withAlpha(51),
                 side:
-                BorderSide(color: DColors.grey.withOpacity(0.1)),
+                BorderSide(color: DColors.grey..withAlpha(25)),
               ),
               child: const Text('Apply'),
             ),

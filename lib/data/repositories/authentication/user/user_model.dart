@@ -32,34 +32,29 @@ class UserModel {
   String get formattedPhoneNo => DFormatter.formatPhoneNumber(phoneNumber);
 
   /// Static function to split full name into first and last name.
-  static List<String> splitFullName(String fullName) {
-    return fullName.split(" ");
-  }
+  static List<String> nameParts(fullName) => fullName.split(" ");
 
   /// Static function to generate a username from the full name.
-  static String generateUsername(String fullName) {
+  static String generateUsername(fullName) {
     if (fullName.trim().isEmpty) return "cwt_user";
-
     List<String> nameParts = fullName.split(" ");
     String firstName = nameParts[0].toLowerCase();
     String lastName = nameParts.length > 1 ? nameParts[1].toLowerCase() : "";
 
     String camelCaseUsername = "$firstName$lastName"; // Combine first and last
-    return "cwt_$camelCaseUsername"; // Add "cwt_" prefix
+    String usernameWithPrefix = "cwt_$camelCaseUsername"; // Add "cwt_" prefix
+    return usernameWithPrefix;
   }
 
   /// Static function to create an empty user model.
-  static UserModel empty() {
-    return UserModel(
+  static UserModel empty() => UserModel(
       id: '',
       firstName: '',
       lastName: '',
       username: '',
       email: '',
       phoneNumber: '',
-      profilePicture: '',
-    );
-  }
+      profilePicture: '');
 
   /// Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {

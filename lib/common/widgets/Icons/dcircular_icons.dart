@@ -32,8 +32,8 @@ class DCircularIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         color: backgroundColor != null
             ? backgroundColor! : dark
-            ? DColors.black.withOpacity(0.9)
-            : DColors.white.withOpacity(0.9),
+            ? DColors.black.withAlpha(25)
+            : DColors.white.withAlpha(25),
       ),
       child: IconButton(
           onPressed: onPressed, icon: Icon(icon, color: color, size: size)),

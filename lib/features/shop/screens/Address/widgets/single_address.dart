@@ -17,7 +17,7 @@ class DSingleAddress extends StatelessWidget {
       width: double.infinity,
       showBorder: true,
       padding: const EdgeInsets.all(DSizes.md),
-      backgroundColor: selectedAddress ? DColors.primary.withOpacity(0.5) : Colors.transparent,
+      backgroundColor: selectedAddress ? DColors.primary.withAlpha(128) : Colors.transparent,
       borderColor: selectedAddress ? Colors.transparent : DColors.grey,
       margin: const EdgeInsets.all(DSizes.spaceBtwItems),
       child: Stack(
@@ -26,7 +26,7 @@ class DSingleAddress extends StatelessWidget {
             right: 5,
             top: 30,
             child: Icon(selectedAddress ? Iconsax.tick_circle_copy : null,
-              color: selectedAddress ? dark ? DColors.light : DColors.dark.withOpacity(0.2) : null,
+              color: selectedAddress ? dark ? DColors.light : DColors.dark.withAlpha(51) : null,
             ),
           ),
           Column(

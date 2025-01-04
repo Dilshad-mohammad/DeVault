@@ -5,10 +5,12 @@ import 'package:untitled/common/widgets/Appbar/appbar.dart';
 import 'package:untitled/common/widgets/Custom%20shapes/Containers/primary_header_container.dart';
 import 'package:untitled/common/widgets/List%20files/settings_menu_tile.dart';
 import 'package:untitled/common/widgets/texts/section_heading.dart';
+import 'package:untitled/features/personalization/Screens/Profile/profile.dart';
 import 'package:untitled/features/shop/screens/Address/address.dart';
 import 'package:untitled/features/shop/screens/Order/order.dart';
 import 'package:untitled/utils/constants/helpers/colors.dart';
 import '../../../../common/widgets/List files/user_profile_tile.dart';
+import '../../../../data/repositories/authentication/authentication_repo.dart';
 import '../../../../utils/constants/helpers/sizes.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -29,7 +32,7 @@ class SettingScreen extends StatelessWidget {
                 const SizedBox(height: DSizes.spaceBtwSections),
 
                 /// User Profile Card
-                const DUserProfileTile(),
+                DUserProfileTile(onPressed: ()=> Get.to(() => const ProfileScreen())),
                 const SizedBox(height: DSizes.spaceBtwSections),
               ],
             ),
@@ -78,7 +81,7 @@ class SettingScreen extends StatelessWidget {
                 const SizedBox(height: DSizes.spaceBtwSections),
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton(onPressed: () {}, child: const Text('Logout')),
+                  child: OutlinedButton(onPressed: () => AuthenticationRepository.instance.logout(), child: const Text('Logout')),
                 ),
                 const SizedBox(height: DSizes.spaceBtwSections * 2.5),
               ],

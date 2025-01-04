@@ -18,7 +18,7 @@ class DLoaders {
             margin: const EdgeInsets.symmetric(horizontal: 30),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: DHelperFunctions.isDarkMode(Get.context!) ? DColors.darkerGrey.withOpacity(0.9) : Colors.grey.withOpacity(0.9),
+                color: DHelperFunctions.isDarkMode(Get.context!) ? DColors.darkerGrey.withAlpha(229) : Colors.grey.withAlpha(229),
               ),
               child: Center(child: Text(message, style: Theme.of(Get.context!).textTheme.labelLarge)),
             ),

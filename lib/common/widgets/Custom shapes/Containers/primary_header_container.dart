@@ -20,8 +20,8 @@ class DPrimaryHeaderContainer extends StatelessWidget {
         child: Stack(
           children: [
             /// -- Background Custom Shapes
-            Positioned(top: -150, right: -250, child: DCircularContainer(backgroundColor: DColors.textWhite.withOpacity(0.15))),
-            Positioned(top: 100, right: -300, child: DCircularContainer(backgroundColor: DColors.textWhite.withOpacity(0.15))),
+            Positioned(top: -150, right: -250, child: DCircularContainer(backgroundColor: DColors.textWhite.withAlpha(25))),
+            Positioned(top: 100, right: -300, child: DCircularContainer(backgroundColor: DColors.textWhite.withAlpha(25))),
             child,
           ],
         ),
