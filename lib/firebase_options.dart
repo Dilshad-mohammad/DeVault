@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB_JPZWyRfNlvg3vVeB_d8FGV_n7xsffUk',
+    apiKey: 'YOUR_API_KEY',
     appId: '1:843827003458:web:1d7bafdab0519661832ddb',
     messagingSenderId: '843827003458',
     projectId: 'devault-a4416',
@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCMTC5lL-70MtqIWyeEJrMVqtnHDbgY1Dk',
+    apiKey: 'YOUR_API_KEY',
     appId: '1:843827003458:android:8203a79af15b382c832ddb',
     messagingSenderId: '843827003458',
     projectId: 'devault-a4416',
@@ -62,7 +62,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBfu0x2eVcToXdOC5oZjejvDjRNhA1HKUw',
+    apiKey: 'YOUR_API_KEY',
     appId: '1:843827003458:ios:d506bc6cee0e2555832ddb',
     messagingSenderId: '843827003458',
     projectId: 'devault-a4416',
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBD-9PQI9BlI2KXJRSvcwTYdttPBziLqa0',
+    apiKey: 'YOUR_API_KEY',
     appId: '1:142868810327:web:72fc6b8acd3e4d778e3112',
     messagingSenderId: '142868810327',
     projectId: 'devault-ecom',
