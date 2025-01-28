@@ -13,20 +13,20 @@ Future<void> main() async {
   // Add Widgets Binding
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  //Todo: Init Local Storage
+  // Todo: Init Local Storage
   await GetStorage.init();
   Get.put(SignupController());
 
 
   // Todo: Init Payment Methods
-  //Todo: Await Native Splash
+  // Todo: Await Native Splash
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  //Todo: Initialize Firebase
+  // Todo: Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
     (FirebaseApp value) => Get.put(AuthenticationRepository()),
   );
-  //Todo: Initialize Authentication
+  // Todo: Initialize Authentication
 
   runApp(const d_vault());
 }

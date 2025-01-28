@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:untitled/data/repositories/authentication/authentication_repo.dart';
 import 'package:untitled/data/repositories/authentication/user/user_model.dart';
 import 'package:untitled/data/repositories/users/user_repository.dart';
@@ -17,9 +18,7 @@ class UserController extends GetxController {
   static UserController get instance => Get.find();
 
   final profileLoading = false.obs;
-  Rx<UserModel> user = UserModel
-      .empty()
-      .obs;
+  Rx<UserModel> user = UserModel.empty().obs;
 
   final hidePassword = false.obs;
   final verifyEmail = TextEditingController();
@@ -49,32 +48,38 @@ class UserController extends GetxController {
   /// Save user Record from any Registration provider
   Future<void> saveUserRecord(UserCredential? userCredentials) async {
     try {
-      if (userCredentials != null) {
-        // Convert Name to First and Last Name
-        final nameParts =
-        UserModel.nameParts(userCredentials.user!.displayName ?? '');
-        final username =
-        UserModel.generateUsername(userCredentials.user!.displayName ?? '');
+      // Refresh user Record
+      await fetchUserRecord();
 
-        // Map Data
-        final user = UserModel(
-            id: userCredentials.user!.uid,
-            firstName: nameParts[0],
-            lastName:
-            nameParts.length > 1 ? nameParts.sublist(1).join(" ") : '',
-            username: username,
-            email: userCredentials.user!.email ?? '',
-            phoneNumber: userCredentials.user!.phoneNumber ?? '',
-            profilePicture: userCredentials.user!.photoURL ?? '');
+      // If no record already stored.
+      if (user.value.id.isEmpty) {
+        if (userCredentials != null) {
+          // Convert Name to First and Last Name
+          final nameParts =
+              UserModel.nameParts(userCredentials.user!.displayName ?? '');
+          final username = UserModel.generateUsername(
+              userCredentials.user!.displayName ?? '');
 
-        // Save user Data
-        await userRepository.saveUserRecord(user);
+          // Map Data
+          final user = UserModel(
+              id: userCredentials.user!.uid,
+              firstName: nameParts[0],
+              lastName:
+                  nameParts.length > 1 ? nameParts.sublist(1).join(" ") : '',
+              username: username,
+              email: userCredentials.user!.email ?? '',
+              phoneNumber: userCredentials.user!.phoneNumber ?? '',
+              profilePicture: userCredentials.user!.photoURL ?? '');
+
+          // Save user Data
+          await userRepository.saveUserRecord(user);
+        }
       }
     } catch (e) {
       DLoaders.warningSnackBar(
           title: 'Data not saved',
           message:
-          'Something went wrong while saving your information. You can re-save your data in your Profile.');
+              'Something went wrong while saving your information. You can re-save your data in your Profile.');
     }
   }
 
@@ -84,7 +89,7 @@ class UserController extends GetxController {
       contentPadding: const EdgeInsets.all(DSizes.md),
       title: 'Delete Account',
       middleText:
-      'Are you Sure? You want to delete your account permanently? This action is not reversible and all of your data will be removed permanently.',
+          'Are you Sure? You want to delete your account permanently? This action is not reversible and all of your data will be removed permanently.',
       confirm: ElevatedButton(
         onPressed: () => deleteUserAccount(),
         style: ElevatedButton.styleFrom(
@@ -103,10 +108,12 @@ class UserController extends GetxController {
   /// Delete User Account
   void deleteUserAccount() async {
     try {
-      DFullScreenLoader.openLoadingDialog('Processing...', DImages.decorAnimation);
+      DFullScreenLoader.openLoadingDialog(
+          'Processing...', DImages.decorAnimation);
 
       final auth = AuthenticationRepository.instance;
-      final provider = auth.authUser?.providerData.map((e) => e.providerId).first;
+      final provider =
+          auth.authUser?.providerData.map((e) => e.providerId).first;
 
       if (provider != null && provider.isNotEmpty) {
         switch (provider) {
@@ -125,7 +132,7 @@ class UserController extends GetxController {
               }
             });
             return;
-        // Handle other providers if needed
+          // Handle other providers if needed
         }
 
         await auth.deleteAccount();
@@ -135,7 +142,7 @@ class UserController extends GetxController {
           } else {
             Navigator.of(Get.context!).pushAndRemoveUntil(
               MaterialPageRoute(builder: (_) => const LoginScreen()),
-                  (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
             );
           }
         });
@@ -149,7 +156,8 @@ class UserController extends GetxController {
 
   /// -- Re-AUTHENTICATE before deleting
   Future<void> reAuthenticateEmailAndPasswordUser() async {
-    DFullScreenLoader.openLoadingDialog('Processing...', DImages.decorAnimation);
+    DFullScreenLoader.openLoadingDialog(
+        'Processing...', DImages.decorAnimation);
     try {
       // Check Internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -171,7 +179,8 @@ class UserController extends GetxController {
       }
 
       // Re-authenticate and delete account
-      await AuthenticationRepository.instance.reAuthenticateWithEmailAndPassword(
+      await AuthenticationRepository.instance
+          .reAuthenticateWithEmailAndPassword(
         verifyEmail.text.trim(),
         verifyPassword.text.trim(),
       );
@@ -189,7 +198,7 @@ class UserController extends GetxController {
         } else {
           Navigator.of(Get.context!).pushAndRemoveUntil(
             MaterialPageRoute(builder: (_) => const LoginScreen()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
         }
       });
@@ -200,6 +209,34 @@ class UserController extends GetxController {
       );
     } finally {
       DFullScreenLoader.stopLoading();
+    }
+  }
+
+  /// -- Upload profile Image
+  uploadUserProfilePicture() async {
+    try {
+      final image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 70,
+          maxHeight: 512,
+          maxWidth: 512);
+      if (image != null) {
+        // Upload Image
+        final imageUrl =
+            await userRepository.uploadImage('Users/Images/Profile/', image);
+
+        // Update User Image Record
+        Map<String, dynamic> json = {'profilePicture': imageUrl};
+        await userRepository.updateSingleField(json);
+
+        user.value.profilePicture = imageUrl;
+        DLoaders.successSnackBar(
+            title: 'Congratulations',
+            message: 'Your Profile Image has been updated!');
+      }
+    } catch (e) {
+      DLoaders.errorSnackBar(
+          title: 'OhSnap', message: 'Something went wrong: $e');
     }
   }
 }

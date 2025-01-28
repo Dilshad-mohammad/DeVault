@@ -44,31 +44,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBD-9PQI9BlI2KXJRSvcwTYdttPBziLqa0',
-    appId: '1:142868810327:web:97b850d053171c8d8e3112',
-    messagingSenderId: '142868810327',
-    projectId: 'devault-ecom',
-    authDomain: 'devault-ecom.firebaseapp.com',
-    storageBucket: 'devault-ecom.firebasestorage.app',
-    measurementId: 'G-DKS1TQS4YE',
+    apiKey: 'AIzaSyB_JPZWyRfNlvg3vVeB_d8FGV_n7xsffUk',
+    appId: '1:843827003458:web:1d7bafdab0519661832ddb',
+    messagingSenderId: '843827003458',
+    projectId: 'devault-a4416',
+    authDomain: 'devault-a4416.firebaseapp.com',
+    storageBucket: 'devault-a4416.firebasestorage.app',
+    measurementId: 'G-EB63XD8W1Y',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDybraeU9dNjPDxU9ka_-71SObSNY5q590',
-    appId: '1:142868810327:android:4bbb643c68108c7c8e3112',
-    messagingSenderId: '142868810327',
-    projectId: 'devault-ecom',
-    storageBucket: 'devault-ecom.firebasestorage.app',
+    apiKey: 'AIzaSyCMTC5lL-70MtqIWyeEJrMVqtnHDbgY1Dk',
+    appId: '1:843827003458:android:8203a79af15b382c832ddb',
+    messagingSenderId: '843827003458',
+    projectId: 'devault-a4416',
+    storageBucket: 'devault-a4416.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCFpNdo_prNxnFXTD5N56jCoT_lnhCwCg8',
-    appId: '1:142868810327:ios:9f4643e2d92779618e3112',
-    messagingSenderId: '142868810327',
-    projectId: 'devault-ecom',
-    storageBucket: 'devault-ecom.firebasestorage.app',
-    androidClientId: '142868810327-9fkc5pim31ked7surrrggronfg0fqegt.apps.googleusercontent.com',
-    iosClientId: '142868810327-d71efmea073ihurbo3b5d471to4rbssg.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBfu0x2eVcToXdOC5oZjejvDjRNhA1HKUw',
+    appId: '1:843827003458:ios:d506bc6cee0e2555832ddb',
+    messagingSenderId: '843827003458',
+    projectId: 'devault-a4416',
+    storageBucket: 'devault-a4416.firebasestorage.app',
+    iosClientId: '843827003458-2dne500ie8rrg41vgmoefqsjqhgtkf21.apps.googleusercontent.com',
     iosBundleId: 'com.example.devault',
   );
 

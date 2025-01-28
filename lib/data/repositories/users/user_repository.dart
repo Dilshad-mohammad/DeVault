@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:untitled/data/repositories/authentication/authentication_repo.dart';
 import 'package:untitled/data/repositories/authentication/user/user_model.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
@@ -12,11 +16,12 @@ class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-/// Function to save user data to FireStore.
-Future<void> saveUserRecord(UserModel user) async { // UserModel
-  try {
-    await _db.collection('Users').doc(user.id).set(user.toJson());
-  } on FirebaseException catch (e) {
+  /// Function to save user data to FireStore.
+  Future<void> saveUserRecord(UserModel user) async {
+    // UserModel
+    try {
+      await _db.collection('Users').doc(user.id).set(user.toJson());
+    } on FirebaseException catch (e) {
       throw DFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const DFormatException();
@@ -28,14 +33,18 @@ Future<void> saveUserRecord(UserModel user) async { // UserModel
   }
 
   /// Function to fetch user details based on user ID.
-  Future<UserModel> fetchUserDetails() async { // UserModel
+  Future<UserModel> fetchUserDetails() async {
+    // UserModel
     try {
-     final documentSnapshot = await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).get();
-     if (documentSnapshot.exists) {
-       return UserModel.fromSnapshot(documentSnapshot);
-     } else {
-       return UserModel.empty();
-     }
+      final documentSnapshot = await _db
+          .collection('Users')
+          .doc(AuthenticationRepository.instance.authUser?.uid)
+          .get();
+      if (documentSnapshot.exists) {
+        return UserModel.fromSnapshot(documentSnapshot);
+      } else {
+        return UserModel.empty();
+      }
     } on FirebaseException catch (e) {
       throw DFirebaseException(e.code).message;
     } on FormatException catch (_) {
@@ -50,7 +59,10 @@ Future<void> saveUserRecord(UserModel user) async { // UserModel
   /// Functions to update user data in FireStore.
   Future<void> updateUserDetails(UserModel updateUser) async {
     try {
-      await _db.collection('Users').doc(updateUser.id).update(updateUser.toJson());
+      await _db
+          .collection('Users')
+          .doc(updateUser.id)
+          .update(updateUser.toJson());
     } on FirebaseException catch (e) {
       throw DFirebaseException(e.code).message;
     } on FormatException catch (_) {
@@ -63,9 +75,13 @@ Future<void> saveUserRecord(UserModel user) async { // UserModel
   }
 
   /// Update any field in specific users collection.
-  Future<void> updateSingleField(Map<String, dynamic> json) async { // UserModel
+  Future<void> updateSingleField(Map<String, dynamic> json) async {
+    // UserModel
     try {
-      await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).update(json);
+      await _db
+          .collection('Users')
+          .doc(AuthenticationRepository.instance.authUser?.uid)
+          .update(json);
     } on FirebaseException catch (e) {
       throw DFirebaseException(e.code).message;
     } on FormatException catch (_) {
@@ -92,5 +108,21 @@ Future<void> saveUserRecord(UserModel user) async { // UserModel
     }
   }
 
+  /// Upload any Image
+  Future<String> uploadImage(String path, XFile image) async {
+    try {
+      final ref = FirebaseStorage.instance.ref(path).child(image.name);
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      return url;
+    } on FirebaseException catch (e) {
+      throw DFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const DFormatException();
+    } on PlatformException catch (e) {
+      throw DPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }
-

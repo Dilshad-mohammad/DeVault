@@ -27,13 +27,15 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   #Dependencies added by Dilshad.
-  shared_preferences: ^2.0.13
+  shared_preferences: ^2.4.0
   get: ^4.6.6
   get_storage: ^2.1.1
   flutter_native_splash: ^2.4.1
   smooth_page_indicator: ^1.2.0+3
   iconsax_flutter: ^1.0.0
   carousel_slider: ^5.0.0
+  shimmer: ^3.0.0
+  image_picker: ^1.1.2
 
   # product specific
   readmore: ^3.0.0
@@ -42,9 +44,12 @@ dependencies:
   # Firebase dependencies:
   firebase_core: ^3.9.0
   firebase_auth: ^5.3.4
-  cloud_firestore: ^5.5.1
+  cloud_firestore: ^5.6.2 #^5.5.1
   google_sign_in: ^6.2.2
-  shimmer: ^3.0.0
+  firebase_storage: ^12.4.1
+  cached_network_image: ^3.4.1
+
+
 
 
 

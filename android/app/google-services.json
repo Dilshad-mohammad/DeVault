@@ -1,45 +1,37 @@
 {
   "project_info": {
-    "project_number": "142868810327",
-    "project_id": "devault-ecom",
-    "storage_bucket": "devault-ecom.firebasestorage.app"
+    "project_number": "843827003458",
+    "project_id": "devault-a4416",
+    "storage_bucket": "devault-a4416.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:142868810327:android:4bbb643c68108c7c8e3112",
+        "mobilesdk_app_id": "1:843827003458:android:8203a79af15b382c832ddb",
         "android_client_info": {
           "package_name": "com.example.devault"
         }
       },
       "oauth_client": [
         {
-          "client_id": "142868810327-9fkc5pim31ked7surrrggronfg0fqegt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.devault",
-            "certificate_hash": "931b3abec489237227fcdc123d906b88435d3126"
-          }
-        },
-        {
-          "client_id": "142868810327-k3lc0a0gdljmpvopvtv63sfd5k9c7cms.apps.googleusercontent.com",
+          "client_id": "843827003458-es4kdv238primfbe86phfh1q0tqmn27d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDybraeU9dNjPDxU9ka_-71SObSNY5q590"
+          "current_key": "AIzaSyCMTC5lL-70MtqIWyeEJrMVqtnHDbgY1Dk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "142868810327-k3lc0a0gdljmpvopvtv63sfd5k9c7cms.apps.googleusercontent.com",
+              "client_id": "843827003458-es4kdv238primfbe86phfh1q0tqmn27d.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "142868810327-d71efmea073ihurbo3b5d471to4rbssg.apps.googleusercontent.com",
+              "client_id": "843827003458-2dne500ie8rrg41vgmoefqsjqhgtkf21.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.devault"
