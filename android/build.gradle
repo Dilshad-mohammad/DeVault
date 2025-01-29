@@ -4,9 +4,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Android Gradle Plugin version
-        classpath 'com.android.tools.build:gradle:8.2.2'  // Update to the version you're using
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0'  // Kotlin plugin version
+        // Use a newer version of Android Gradle Plugin
+        classpath 'com.android.tools.build:gradle:8.2.0'  // Updated version
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22'  // Kotlin plugin version
+        classpath 'com.google.gms:google-services:4.4.2' // Firebase plugin version
     }
 }
 
@@ -21,6 +22,7 @@ rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
